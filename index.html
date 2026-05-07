@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TechCure — Service Laptop Premium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --card: #1a1a26;
+      --accent: #c8a96e;
+      --accent2: #e8c98d;
+      --text: #f0ede6;
+      --muted: #7a7890;
+      --border: rgba(200,169,110,0.18);
+      --glow: rgba(200,169,110,0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.6;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 4rem;
+      background: rgba(10,10,15,0.75);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      animation: fadeDown 0.8s ease forwards;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--text); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-cta {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.6rem 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .nav-cta:hover { background: var(--accent); color: var(--bg); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 4rem;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      right: -10%; top: 50%;
+      transform: translateY(-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(200,169,110,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--border);
+      padding: 0.4rem 1rem;
+      border-radius: 2px;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.8rem);
+      line-height: 1.08;
+      font-weight: 900;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s 0.35s ease both;
+    }
+    .hero-title em { font-style: italic; color: var(--accent); display: block; }
+
+    .hero-desc {
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 440px;
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.8s 0.5s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      animation: fadeUp 0.8s 0.65s ease both;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 0.9rem 2.2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      background: var(--accent2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(200,169,110,0.25);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s;
+      text-decoration: none;
+    }
+    .btn-ghost:hover { color: var(--accent); }
+    .btn-ghost::after { content: '→'; transition: transform 0.3s; }
+    .btn-ghost:hover::after { transform: translateX(4px); }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+
+    .laptop-frame {
+      width: 100%;
+      max-width: 480px;
+      aspect-ratio: 16/10;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px 12px 4px 4px;
+      position: relative;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(200,169,110,0.08);
+      overflow: hidden;
+    }
+    .laptop-screen {
+      position: absolute;
+      inset: 8%;
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .screen-content { text-align: center; }
+    .screen-icon {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      display: block;
+      animation: spin 8s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .screen-text {
+      font-size: 0.7rem;
+      color: rgba(200,169,110,0.6);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .scan-line {
+      position: absolute;
+      left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      animation: scan 3s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    @keyframes scan {
+      0%   { top: 0; opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.6; }
+      100% { top: 100%; opacity: 0; }
+    }
+    .laptop-base {
+      position: absolute;
+      bottom: -14px; left: -5%; right: -5%;
+      height: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 0 0 8px 8px;
+    }
+
+    .stat-cards {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      right: -80px; top: 50%;
+      transform: translateY(-50%);
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.8rem 1.2rem;
+      min-width: 140px;
+      animation: floatCard 4s ease-in-out infinite;
+    }
+    .stat-card:nth-child(2) { animation-delay: -2s; }
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-6px); }
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    /* SECTIONS */
+    section { padding: 6rem 4rem; }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section-desc {
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.8;
+      font-size: 0.9rem;
+    }
+
+    /* SERVICES */
+    #layanan { background: var(--surface); }
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3.5rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: var(--border);
+    }
+    .service-card {
+      background: var(--card);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s;
+      cursor: default;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s;
+    }
+    .service-card:hover { background: #1e1e2e; transform: translateY(-4px); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon { font-size: 2rem; margin-bottom: 1.2rem; display: block; }
+    .service-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+    .service-desc {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .service-price {
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+    .service-price strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      display: block;
+      margin-top: 0.2rem;
+    }
+
+    /* PROCESS */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-top: 3.5rem;
+      position: relative;
+    }
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 28px; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), var(--border), transparent);
+    }
+    .process-step { text-align: center; position: relative; }
+    .step-num {
+      width: 56px; height: 56px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin: 0 auto 1.2rem;
+      background: var(--bg);
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s;
+    }
+    .process-step:hover .step-num {
+      background: var(--accent);
+      color: var(--bg);
+      transform: scale(1.1);
+    }
+    .step-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .step-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.7; }
+
+    /* TESTIMONIALS */
+    #testimoni { background: var(--surface); }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .testi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+      transition: border-color 0.3s;
+    }
+    .testi-card:hover { border-color: var(--accent); }
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      line-height: 1;
+      color: var(--accent);
+      opacity: 0.3;
+      position: absolute;
+      top: 1rem; right: 1.5rem;
+    }
+    .testi-text { font-size: 0.88rem; line-height: 1.8; color: #c8c5bc; margin-bottom: 1.5rem; }
+    .testi-author { display: flex; align-items: center; gap: 0.8rem; }
+    .author-avatar {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--accent), #8b6a3e);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--bg);
+      font-family: 'Playfair Display', serif;
+    }
+    .author-name { font-size: 0.85rem; font-weight: 500; }
+    .author-role { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.5px; }
+    .stars { color: var(--accent); font-size: 0.75rem; margin-bottom: 0.8rem; letter-spacing: 2px; }
+
+    /* CONTACT */
+    #kontak {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-icon { font-size: 1.2rem; color: var(--accent); margin-top: 2px; flex-shrink: 0; }
+    .contact-label { font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+    .contact-value { font-size: 0.9rem; line-height: 1.6; }
+
+    .form-group { margin-bottom: 1.2rem; }
+    .form-label { display: block; font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.85rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      transition: border-color 0.3s;
+      outline: none;
+      appearance: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* FOOTER */
+    footer {
+      background: #070710;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--accent); }
+    .footer-copy { font-size: 0.78rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 2rem; list-style: none; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 4rem; min-height: auto; }
+      .hero-visual { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .process-steps::before { display: none; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      #kontak { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .stat-cards { display: none; }
+      footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Tech<span>Cure</span></div>
+  <ul class="nav-links">
+    <li><a href="#layanan">Layanan</a></li>
+    <li><a href="#proses">Proses</a></li>
+    <li><a href="#testimoni">Testimoni</a></li>
+    <li><a href="#kontak">Kontak</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('kontak').scrollIntoView({behavior:'smooth'})">Konsultasi Gratis</button>
+</nav>
+
+<section class="hero" id="beranda">
+  <div class="hero-content">
+    <div class="hero-badge">✦ Ahli Perbaikan Laptop</div>
+    <h1 class="hero-title">
+      Perawatan Laptop<br>
+      <em>Kelas Premium</em>
+    </h1>
+    <p class="hero-desc">
+      Kami menangani setiap masalah laptop dengan presisi tinggi dan menggunakan suku cadang berkualitas original. Dipercaya lebih dari 5.000 pelanggan di seluruh kota.
+    </p>
+    <div class="hero-actions">
+      <a href="#kontak" class="btn-primary">Booking Sekarang</a>
+      <a href="#layanan" class="btn-ghost">Lihat Layanan</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="laptop-frame">
+      <div class="laptop-screen">
+        <div class="scan-line"></div>
+        <div class="screen-content">
+          <span class="screen-icon">⚙</span>
+          <div class="screen-text">Diagnosing System</div>
+        </div>
+      </div>
+      <div class="laptop-base"></div>
+    </div>
+    <div class="stat-cards">
+      <div class="stat-card">
+        <div class="stat-num">5K+</div>
+        <div class="stat-label">Pelanggan Puas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">98%</div>
+        <div class="stat-label">Tingkat Sukses</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section id="layanan">
+  <div class="services-header reveal">
+    <div>
+      <div class="section-label">✦ Apa yang Kami Tawarkan</div>
+      <h2 class="section-title">Layanan<br><em style="font-style:italic;color:var(--accent)">Lengkap & Terpercaya</em></h2>
+    </div>
+    <p class="section-desc">Dari kerusakan ringan hingga berat, tim teknisi bersertifikat kami siap menangani semua jenis masalah laptop Anda.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="service-icon">🔧</span>
+      <div class="service-title">Perbaikan Hardware</div>
+      <div class="service-desc">Penggantian motherboard, keyboard, layar LCD/LED, engsel laptop, port charger, dan komponen hardware lainnya dengan suku cadang original.</div>
+      <div class="service-price">Mulai dari <strong>Rp 150.000</strong></div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">💾</span>
+      <div class="service-title">Instalasi & Software</div>
+      <div class="service-desc">Instalasi Windows, macOS, Linux, driver, dan software profesional. Termasuk aktivasi lisensi resmi dan setup keamanan sistem.</div>
+      <div class="service-price">Mulai dari <strong>Rp 75.000</strong></div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">🦠</span>
+      <div class="service-title">Hapus Virus & Malware</div>
+      <div class="service-desc">Pembersihan virus, ransomware, spyware, dan malware secara menyeluruh. Pemasangan antivirus premium dan pengamanan data penting Anda.</div>
+      <div class="service-price">Mulai dari <strong>Rp 100.000</strong></div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">🔋</span>
+      <div class="service-title">Penggantian Baterai</div>
+      <div class="service-desc">Penggantian baterai OEM berkualitas tinggi untuk semua merek laptop. Garansi baterai 6 bulan dan pengujian kapasitas penuh setelah pemasangan.</div>
+      <div class="service-price">Mulai dari <strong>Rp 200.000</strong></div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">❄️</span>
+      <div class="service-title">Cleaning & Thermal Paste</div>
+      <div class="service-desc">Pembersihan debu internal secara menyeluruh, penggantian thermal paste berkualitas, serta pembersihan fan dan heatsink untuk performa optimal.</div>
+      <div class="service-price">Mulai dari <strong>Rp 80.000</strong></div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">📀</span>
+      <div class="service-title">Recovery Data</div>
+      <div class="service-desc">Pemulihan data dari harddisk rusak, SSD bermasalah, atau sistem yang crash. Tingkat keberhasilan recovery hingga 95% dengan teknologi terkini.</div>
+      <div class="service-price">Mulai dari <strong>Rp 250.000</strong></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section id="proses">
+  <div style="text-align:center" class="reveal">
+    <div class="section-label">✦ Bagaimana Cara Kerjanya</div>
+    <h2 class="section-title">Proses Servis<br><span style="font-family:'Playfair Display',serif;font-style:italic;color:var(--accent)">Cepat & Transparan</span></h2>
+  </div>
+  <div class="process-steps">
+    <div class="process-step reveal">
+      <div class="step-num">01</div>
+      <div class="step-title">Konsultasi</div>
+      <div class="step-desc">Ceritakan masalah laptop Anda. Kami memberikan diagnosa awal secara gratis tanpa biaya apapun.</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">02</div>
+      <div class="step-title">Diagnosa</div>
+      <div class="step-desc">Teknisi kami melakukan pengecekan menyeluruh dan memberikan estimasi biaya yang transparan.</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">03</div>
+      <div class="step-title">Perbaikan</div>
+      <div class="step-desc">Proses servis dilakukan dengan standar tertinggi menggunakan peralatan profesional.</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">04</div>
+      <div class="step-title">Selesai</div>
+      <div class="step-desc">Laptop dikembalikan prima. Garansi servis 30 hari berlaku untuk semua layanan.</div>
+    </div>
+  </div>
+</section>
+
+<section id="testimoni">
+  <div class="reveal">
+    <div class="section-label">✦ Kata Mereka</div>
+    <h2 class="section-title">Dipercaya Ribuan<br><em style="font-style:italic;color:var(--accent)">Pelanggan Setia</em></h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card reveal">
+      <div class="quote-mark">"</div>
+      <div class="stars">★★★★★</div>
+      <div class="testi-text">Laptop saya yang sudah mati total berhasil dihidupkan kembali. Proses cepat, harga transparan, dan hasilnya memuaskan. Sangat profesional!</div>
+      <div class="testi-author">
+        <div class="author-avatar">AR</div>
+        <div>
+          <div class="author-name">Andi Rahman</div>
+          <div class="author-role">Mahasiswa UI</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="quote-mark">"</div>
+      <div class="stars">★★★★★</div>
+      <div class="testi-text">Data penting saya berhasil dipulihkan dari harddisk yang sudah rusak parah. Sangat bersyukur menemukan TechCure. Recommended banget!</div>
+      <div class="testi-author">
+        <div class="author-avatar">SW</div>
+        <div>
+          <div class="author-name">Siti Wulandari</div>
+          <div class="author-role">Desainer Grafis</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="quote-mark">"</div>
+      <div class="stars">★★★★★</div>
+      <div class="testi-text">Layar laptop saya yang retak diganti dalam waktu 2 jam saja. Suku cadang original, garansi ada, dan harganya jauh lebih murah dari toko lain.</div>
+      <div class="testi-author">
+        <div class="author-avatar">BN</div>
+        <div>
+          <div class="author-name">Budi Nugroho</div>
+          <div class="author-role">Pengusaha</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section id="kontak" style="background:var(--surface)">
+  <div class="reveal">
+    <div class="section-label">✦ Hubungi Kami</div>
+    <h2 class="section-title">Booking<br><em style="font-style:italic;color:var(--accent)">Servis Laptop</em></h2>
+    <p class="section-desc" style="margin-bottom:2.5rem">Isi formulir atau hubungi kami langsung. Tim kami siap melayani Anda setiap hari, Senin–Sabtu pukul 09.00–20.00.</p>
+    <div class="contact-info-item">
+      <span class="contact-icon">📍</span>
+      <div>
+        <div class="contact-label">Alamat</div>
+        <div class="contact-value">SMKN 1 AL-MUBARKEYA</div>
+      </div>
+    </div>
+    <div class="contact-info-item">
+      <span class="contact-icon">📱</span>
+      <div>
+        <div class="contact-label">WhatsApp</div>
+        <div class="contact-value">+62 838-3140-6756</div>
+      </div>
+    </div>
+    <div class="contact-info-item">
+      <span class="contact-icon">✉️</span>
+      <div>
+        <div class="contact-label">Email</div>
+        <div class="contact-value">marvelivandiegoo@gmail.com</div>
+      </div>
+    </div>
+    <div class="contact-info-item">
+      <span class="contact-icon">🕐</span>
+      <div>
+        <div class="contact-label">Jam Operasional</div>
+        <div class="contact-value">Senin – Sabtu: 09.00 – 20.00 WIB</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Nama Lengkap</label>
+        <input type="text" class="form-input" placeholder="Nama Anda"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nomor WhatsApp</label>
+        <input type="text" class="form-input" placeholder="08xx-xxxx-xxxx"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Merek Laptop</label>
+        <select class="form-select form-input">
+          <option value="">Pilih Merek</option>
+          <option>Asus</option>
+          <option>Acer</option>
+          <option>HP</option>
+          <option>Dell</option>
+          <option>Lenovo</option>
+          <option>Apple MacBook</option>
+          <option>MSI</option>
+          <option>Lainnya</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Jenis Layanan</label>
+        <select class="form-select form-input">
+          <option value="">Pilih Layanan</option>
+          <option>Perbaikan Hardware</option>
+          <option>Instalasi Software</option>
+          <option>Hapus Virus</option>
+          <option>Ganti Baterai</option>
+          <option>Cleaning</option>
+          <option>Recovery Data</option>
+          <option>Tidak Tahu (Butuh Diagnosa)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Deskripsi Masalah</label>
+      <textarea class="form-textarea form-input" placeholder="Ceritakan gejala atau masalah yang Anda alami..."></textarea>
+    </div>
+    <button class="btn-primary" style="width:100%;padding:1rem;font-size:0.9rem" onclick="handleSubmit(this)">
+      Kirim Booking →
+    </button>
+    <p style="font-size:0.75rem;color:var(--muted);margin-top:0.8rem;text-align:center">Kami akan menghubungi Anda dalam 15 menit setelah formulir diterima.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">TechCure</div>
+  <ul class="footer-links">
+    <li><a href="#beranda">Beranda</a></li>
+    <li><a href="#layanan">Layanan</a></li>
+    <li><a href="#kontak">Kontak</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 TechCure. Semua hak dilindungi.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  function handleSubmit(btn) {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Booking Terkirim!';
+    btn.style.background = '#2a6b3f';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 3000);
+  }
+</script>
+</body>
+</html>
